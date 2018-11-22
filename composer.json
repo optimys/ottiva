@@ -1,0 +1,23 @@
+{
+    "name": "alex/test",
+    "description": "Ottivo test task",
+    "type": "project",
+    "require": {
+        "nesbot/carbon": "^2.5"
+    },
+    "require-dev": {
+        "symfony/var-dumper": "^4.1"
+    },
+    "authors": [
+        {
+            "name": "Alex Kalashnikov",
+            "email": "laguerto@ukr.net"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    }
+
+}
