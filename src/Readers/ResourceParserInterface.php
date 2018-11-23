@@ -8,7 +8,12 @@
 
 namespace App\Readers;
 
-
+/**
+ * Parser for different types of data
+ *
+ * Interface ResourceParserInterface
+ * @package App\Readers
+ */
 interface ResourceParserInterface
 {
 

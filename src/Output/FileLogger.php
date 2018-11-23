@@ -8,20 +8,33 @@
 
 namespace App\Output;
 
-
 use App\Repositories\ResultsRepository;
 
-class FileLogger implements OutputInterface
+/**
+ * Saves results into a file
+ *
+ * Class FileLogger
+ * @package App\Output
+ */
+class FileLogger implements DataOutputInterface
 {
-    protected $result;
 
+    /**
+     * Pull from results repository
+     * and write each result into separate file a file
+     *
+     */
     public function execute()
     {
+        $summary  = "";
         foreach(ResultsRepository::getAll() as $result){
-            $this->result .=$result->getResult()."\n";
+            $task = implode("_",explode(" ",$result->getHeader()));
+            $data = $result->getResult();
+            foreach ($data as $item){
+                $summary .= $item."\n";
+            }
         }
-
-        file_put_contents("results_".app()->getYear().".txt",$this->result);
+        file_put_contents("results/results_".$task.".txt",$summary);
         return;
     }
 }

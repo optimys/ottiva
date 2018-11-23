@@ -13,25 +13,31 @@ use App\Employee;
 use App\Repositories\EmployeeRepository;
 use Carbon\Carbon;
 
+/**
+ * Parses csv data
+ *
+ * Class CsvReader
+ * @package App\Readers
+ */
 class CsvReader implements ResourceParserInterface
 {
 
     public $resource=false;
 
-
-    /*
-     *
-     */
     public function __construct($path = "resources/employees.csv")
     {
         $this->resource = file($path);
     }
 
-    /*
+    /**
+     * Reads each line of the file and push new
+     * Employee instance to Employees stack
      *
+     * @return array
      */
     public function read()
     {
+        $data = [];
         if($this->resource){
             $csv = array_map("str_getcsv", $this->resource);
             $keys = array_shift($csv);
@@ -41,12 +47,18 @@ class CsvReader implements ResourceParserInterface
         }
         foreach ($csv as $employee){
             if($this->validate($employee)){
-                EmployeeRepository::add(new Employee($employee));
+                $data[] = new Employee($employee);
             }
         }
-        return;
+        return $data;
     }
 
+    /**
+     * Checks that data is not empty
+     *
+     * @param array $data
+     * @return bool
+     */
     protected function validate($data=[]){
 
         if(!empty($data['name']) and !empty($data['birthday']) and !empty($data['hired'] )){

@@ -8,17 +8,43 @@
 
 namespace App;
 
-
+/**
+ * Collects all results from different tasks in one format
+ *
+ * Class Result
+ * @package App
+ */
 class Result
 {
-    protected $result="";
 
-    public function __construct($result)
+    protected $header;
+    protected $result=[];
+
+    public function __construct($title)
     {
-        $this->result = $result;
+        $this->header = $title;
     }
 
+    /**
+     * Returns tasks description
+     *
+     * @return string
+     */
+    public function getHeader(){
+        return $this->header;
+    }
+
+    /**
+     * @param string $result
+     */
+    public function setResult($result){
+        $this->result[]= $result;
+    }
+
+    /**
+     * @return array|bool
+     */
     public function getResult(){
-        return $this->result;
+        return !empty($this->result) ? $this->result : false ;
     }
 }

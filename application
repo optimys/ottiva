@@ -1,0 +1,19 @@
+#!/usr/bin/env php
+<?php
+
+use  \App\Readers\CsvReader;
+use \App\Tasks\VocationCounter;
+use \App\Output\FileLogger;
+use Symfony\Component\Console\Application;
+use \App\Commands\CountVocationDays;
+
+require __DIR__ . '/vendor/autoload.php';
+
+$app = new Application();
+$commands = [
+    new CountVocationDays()
+];
+
+$app->addCommands($commands);
+
+$app->run();

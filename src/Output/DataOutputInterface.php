@@ -8,8 +8,13 @@
 
 namespace App\Output;
 
-
-interface OutputInterface
+/**
+ * How we can save our results
+ *
+ * Interface DataOutputInterface
+ * @package App\Output
+ */
+interface DataOutputInterface
 {
     public function execute();
 }
