@@ -2,6 +2,13 @@
 use App\App;
 use Carbon\Carbon;
 
+/**
+ * Calculates differences between dates
+ *
+ * @param $date
+ * @param string $dimension
+ * @return mixed
+ */
 function dateDiff($date,$dimension="year"){
 
     $compare_year = Carbon::now()->setYear(INPUT_YEAR);
@@ -19,6 +26,12 @@ function dateDiff($date,$dimension="year"){
     echo "Wrong dimension";exit;
 }
 
+/**
+ * Get data from config file
+ *
+ * @param $key
+ * @return bool
+ */
 function config($key){
    $config =  include 'config.php';
 
