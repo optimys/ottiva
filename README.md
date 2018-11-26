@@ -1,11 +1,11 @@
 # Ottiva
 
-####Based on Symphony console component
-#####requirements:
+#### Based on Symphony console component
+##### requirements:
 
 - php 7.1 installed
 - composer installed 
-####in order to run:
+#### in order to run:
 
 - git clone https://github.com/optimys/ottiva.git
 - composer install
