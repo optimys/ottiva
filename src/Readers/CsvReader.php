@@ -20,7 +20,7 @@ use App\Employee;
 class CsvReader implements ResourceParserInterface
 {
 
-    public $resource=false;
+    protected $resource=false;
 
     public function __construct($path = "resources/employees.csv")
     {
@@ -57,7 +57,7 @@ class CsvReader implements ResourceParserInterface
      * @param array $data
      * @return bool
      */
-    protected function validate($data=[]){
+    public function validate($data=[]){
 
         if(!empty($data['name']) and !empty($data['birthday']) and !empty($data['hired'] )){
             return true;

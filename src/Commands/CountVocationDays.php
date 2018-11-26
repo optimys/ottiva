@@ -33,7 +33,8 @@ class CountVocationDays extends Command
         $this->setName("count")
             ->setDescription("Counts vacation days for a given year")
             ->addArgument('Year', InputArgument::REQUIRED, 'What year should be used?)')
-            ->addArgument('Path', InputArgument::OPTIONAL, 'Data resource',"resources/employees.csv");
+            ->addArgument('Path', InputArgument::OPTIONAL, 'Data resource',"resources/employees.csv")
+            ->setHelp("You need to provide year, for example: php application count 2016\n The output file will be under results folder");
     }
 
     protected function execute(InputInterface $input, OutputInterface $output){
@@ -44,7 +45,8 @@ class CountVocationDays extends Command
         if(!strlen($year) === 4){
             echo "Wrong Year";exit;
         }
-        define("INPUT_YEAR",(int)$year);
+        $date = Carbon::now()->setYear($year)->toString();
+        define("INPUT_YEAR",$date);
 
         $employees = $this->reader()->read();
 
@@ -57,7 +59,7 @@ class CountVocationDays extends Command
             $logger->execute();
         }
 
-        $output->writeln('Task was complete!');
+        $output->writeln('Task was completed!');
 
     }
 
@@ -69,9 +71,9 @@ class CountVocationDays extends Command
      */
     protected function calculateVocationDays()
     {
-
-        $result = new Result(INPUT_YEAR." Vocation days");
-        $timestamp_year = Carbon::now()->setYear(INPUT_YEAR)->timestamp;
+        $carbon_date = Carbon::parse(INPUT_YEAR);
+        $result = new Result($carbon_date->format('Y-m-d')." Vocation days");
+        $timestamp_year = $carbon_date->timestamp;
         foreach (EmployeeRepository::where('hired',"<=",$timestamp_year) as $member) {
             if ($member->is_experienced()) {
                 $days_off = floor($member->get_experience() / 5) + $member->vocation_days;
@@ -123,7 +125,9 @@ class CountVocationDays extends Command
             $this->resourceParser=$resourceParser;
             return true;
         }
-        return !$this->resourceParser ? new CsvReader($this->path) : $this->resourceParser;
+        if($this->resourceParser) return $this->resourceParser;
+
+        return !$this->path ? new CsvReader() : new CsvReader($this->path);
     }
 
 }

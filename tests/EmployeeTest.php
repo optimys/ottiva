@@ -14,7 +14,7 @@ class EmployeeTest extends \PHPUnit\Framework\TestCase
 
     public function setUp()
     {
-        define("INPUT_YEAR",2018);
+        define("INPUT_YEAR","Sun Nov 26 2018 15:06:55 GMT+0300");
         $this->data = [
             "birthday" => "11.12.1984",
             "hired" => "11.02.2013",
@@ -26,34 +26,28 @@ class EmployeeTest extends \PHPUnit\Framework\TestCase
     }
 
 
-    public function test_getProperty()
+    public function test_that_protected_properties_are_accessible()
     {
-
         $this->assertEquals("ALEX KALASHNIKOV",$this->employee->name);
         $this->assertEquals(27,$this->employee->vocation_days);
+        $this->assertEquals(strtotime("11.12.1984"),$this->employee->birthday);
+        $this->assertEquals(strtotime("11.02.2013"),$this->employee->hired);
     }
 
 
-    /**
-     * @return int
-     */
-    public function testGet_age()
+    public function test_that_get_age_returns_correct_age()
     {
         $this->assertEquals(33,$this->employee->get_age());
     }
 
 
-    public function testGet_experience($dimension = "year")
+    public function test_that_employee_experience_counts_correct()
     {
         $this->assertEquals(5,$this->employee->get_experience());
     }
 
-    /**
-     * checks employee who works less then 1 year
-     *
-     * @return bool
-     */
-    public function testIs_newComer()
+
+    public function test_that_is_newComer_calculates_correct()
     {
         $this->assertFalse($this->employee->is_newComer());
     }
@@ -63,7 +57,7 @@ class EmployeeTest extends \PHPUnit\Framework\TestCase
      *
      * @return bool
      */
-    public function testIs_experienced()
+    public function tes_that_is_experienced_method_works()
     {
         $this->assertTrue($this->employee->is_experienced());
     }
@@ -73,7 +67,7 @@ class EmployeeTest extends \PHPUnit\Framework\TestCase
      *
      * @return bool
      */
-    public function testIs_usual()
+    public function test_that_is_usual_method_works()
     {
         $this->assertFalse($this->employee->is_usual());
     }
@@ -83,13 +77,8 @@ class EmployeeTest extends \PHPUnit\Framework\TestCase
      */
     public function tearDown()
     {
-        // If you use Mockery in your tests you MUST use this method
         \Mockery::close();
-
-        // clean up the memory taken by your instance of service
         $this->dataService = null;
-
-        // Forces collection of any existing garbage cycles
         gc_collect_cycles();
     }
 
